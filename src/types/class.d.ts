@@ -139,6 +139,41 @@ export interface IUpdateClassDraft {
   coupons?: number[];
 }
 
+export interface classCreateData {
+  title: string;
+  images: {
+    file: File;
+    imageUrl: string;
+  }[];
+  genres: string[];
+  min: { value: number; label: string };
+  max: { value: number; label: string };
+  lectureMethod: string;
+  lessonType: string;
+  difficultyLevel: string;
+
+  notification: string;
+  introduction: string;
+  curriculum: {
+    content: string;
+    deletedImages: fileInfo[];
+    clear?: () => void;
+  };
+  holidays: Data[];
+  classRange: { startDate: string; endDate: string };
+  duration: number;
+  reservationComment: string;
+  reservationDeadline: string;
+  address: Juso | null;
+  detail: string;
+  locationConsultative: boolean;
+  regions: Record<string, string[]>;
+  locationDescription: string;
+  classPrice: string | number;
+  schedules: DayTimeList[] | DateTimeList[];
+  coupons: { value: couponGET; label: string }[];
+}
+
 export interface IprocessedDraft {
   id?: number;
   lecturerId?: number;
@@ -188,41 +223,6 @@ export interface IprocessedDraft {
   schedules?: DayTimeList[] | DateTimeList[];
 }
 
-export interface classCreateData {
-  title: string;
-  images: {
-    file: File;
-    imageUrl: string;
-  }[];
-  genres: string[];
-  min: { value: number; label: string };
-  max: { value: number; label: string };
-  lectureMethod: string;
-  lessonType: string;
-  difficultyLevel: string;
-
-  notification: string;
-  introduction: string;
-  curriculum: {
-    content: string;
-    deletedImages: fileInfo[];
-    clear?: () => void;
-  };
-  holidays: Data[];
-  classRange: { startDate: string; endDate: string };
-  duration: number;
-  reservationComment: string;
-  reservationDeadline: string;
-  address: Juso | null;
-  detail: string;
-  locationConsultative: boolean;
-  regions: Record<string, string[]>;
-  locationDescription: string;
-  classPrice: string | number;
-  schedules: DayTimeList[] | DateTimeList[];
-  coupons: { value: couponGET; label: string }[];
-}
-
 export type ReviewOrderType =
   | '최신순'
   | '좋아요순'
@@ -240,6 +240,14 @@ export interface IClassSchedule {
 export interface IClassScheduleResponse {
   schedule: IClassSchedule[];
   holidayArr: string[];
+  daySchedule?: IDaySchedule[];
+}
+
+export interface IDaySchedule {
+  id: number;
+  lectureId: number;
+  day: day[];
+  dateTime: string[];
 }
 
 export interface IProcessedSchedules extends IClassSchedule {
@@ -446,10 +454,41 @@ export interface IClassEditData
   extends IClassScheduleResponse,
     IClassInfoResponse {}
 
+export interface IClassEditFormData {
+  classRange: { startDate: string; endDate: string };
+  images: {
+    file: File;
+    imageUrl: string;
+  }[];
+  curriculum: {
+    content: string;
+    deletedImages: fileInfo[];
+    clear?: () => void;
+  };
+  holidays: Data[];
+  introduction: string;
+  locationDescription: string;
+  maxCapacity: { value: number; label: string };
+  notification: string;
+  price: number;
+  reservationComment: string;
+  reservationDeadline: number;
+}
+
 export interface IMonthlyClassSchedules extends IClassSchedule {
   lecture: {
     title: string;
     isGroup: boolean;
     maxCapacity: number;
   };
+}
+
+export interface IEditSpecificDateType {
+  date: Date;
+  startDateTime: IEditStartDateTime[];
+}
+
+export interface IEditStartDateTime {
+  time: string;
+  editable: boolean;
 }
